@@ -14,17 +14,26 @@
                 <input type="text" th:field="*{name}" id="name">
             </div>
             <div>
-                <label for="email">Email</label>
-                <input type="text" th:field="*{email}" id="email">
+                <label for="lastName">LastName</label>
+                <input type="text" th:field="*{lastName}" id="lastName">
             </div>
             <div>
                 <label for="age">Age</label>
                 <input type="text" th:field="*{age}" id="age">
             </div>
             <div>
+                <label for="email">Email</label>
+                <input type="text" th:field="*{email}" id="email">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="text" th:field="*{password}" id="password">
+            </div>
+            <div>
                 <input type="submit" value="Update User">
             </div>
         </form>
+        <a th:href="@{/login}"><input type="submit" value="log out"></a>
     </div>
 </body>
 </html>

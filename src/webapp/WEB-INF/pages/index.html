@@ -12,22 +12,27 @@
             <h2>Users</h2>
             <table>
                 <tr>
+                    <th>Id</th>
                     <th>Name</th>
-                    <th>Email</th>
+                    <th>LastName</th>
                     <th>Age</th>
+                    <th>Email</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
                 <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
                     <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.lastName}"></td>
                     <td th:text="${user.age}"></td>
+                    <td th:text="${user.email}"></td>
                     <td><a th:href="@{/edit/{id}(id=${user.id})}"><input type="submit" value="Update user"></a></td>
                     <td><a th:href="@{/delete/{id}(id=${user.id})}"><input type="submit" value="Delete user"></a></td>
                 </tr>
             </table>
         </div>
-        <p><a href="/"><input type="submit" value="Add user"></a></p>
+        <p><a href="/newuser"><input type="submit" value="Add user"></a></p>
+        <a th:href="@{/login}"><input type="submit" value="log out"></a>
     </div>
 </body>
 </html>
