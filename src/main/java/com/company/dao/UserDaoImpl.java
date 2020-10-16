@@ -5,6 +5,7 @@ import com.company.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -64,16 +65,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByUsername(String username) {
         List<User> users = getAllUsers();
-        return users.stream().filter(x -> x.getName().equals(username)).findAny().get();
+        return users.stream().filter(x -> x.getName().equals(username)).findAny().orElse(null);
     }
 
     private Role getRole() {
-        List<Role> roles = roleDao.getAllRoles();
-        for (Role role : roles) {
-            if (role.getRole().equals("ROLE_USER")) {
-                return role;
-            }
-        }
-        return null;
+        return roleDao.getAllRoles().stream().filter(x -> x.getRole().equals("ROLE_USER")).findAny().orElse(null);
     }
 }
