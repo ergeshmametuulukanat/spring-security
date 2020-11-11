@@ -17,6 +17,7 @@
                     <th>LastName</th>
                     <th>Age</th>
                     <th>Email</th>
+                    <th>Roles</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -26,12 +27,13 @@
                     <td th:text="${user.lastName}"></td>
                     <td th:text="${user.age}"></td>
                     <td th:text="${user.email}"></td>
+                    <td th:text="${user.roles}"></td>
                     <td><a th:href="@{/edit/{id}(id=${user.id})}"><input type="submit" value="Update user"></a></td>
                     <td><a th:href="@{/delete/{id}(id=${user.id})}"><input type="submit" value="Delete user"></a></td>
                 </tr>
             </table>
         </div>
-        <p><a href="/newuser"><input type="submit" value="Add user"></a></p>
+        <p><a href="/newUser"><input type="submit" value="Add user"></a></p>
         <a th:href="@{/login}"><input type="submit" value="log out"></a>
     </div>
 </body>

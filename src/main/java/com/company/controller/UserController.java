@@ -1,5 +1,7 @@
 package com.company.controller;
 
+import com.company.dao.RoleDao;
+import com.company.model.Role;
 import com.company.model.User;
 import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleDao roleDao;
 
     @GetMapping(value = "/")
     public String getHomePage() {
@@ -40,13 +46,17 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/newuser")
-    public String showSignUpForm(User user) {
+    @GetMapping("/newUser")
+    public String newUser(User user, Model model) {
+        model.addAttribute("user", user);
+        List<Role> roles = roleDao.getAllRoles();
+        model.addAttribute("allRoles", roles);
         return "add-user";
     }
 
     @PostMapping("/adduser")
     public String addUser(User user, Model model) {
+        System.out.println(user.getRoles());
         userService.add(user);
         model.addAttribute("users", userService.getAllUsers());
         return "index";
@@ -56,6 +66,8 @@ public class UserController {
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         User user = userService.getById(id);
         model.addAttribute("user", user);
+        List<Role> roles = roleDao.getAllRoles();
+        model.addAttribute("allRoles", roles);
         return "update-user";
     }
 

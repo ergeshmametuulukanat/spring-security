@@ -41,12 +41,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/edit/{id}").access("hasAnyRole('ROLE_ADMIN')")
                 .antMatchers("/update/{id}").access("hasAnyRole('ROLE_ADMIN')")
                 .antMatchers("/delete/{id}").access("hasAnyRole('ROLE_ADMIN')")
-                .and().formLogin()
+                .and()
+                .formLogin()
                 .successHandler(successUserHandler);
     }
 
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user").password("user").roles("USER")
+                .and()
+                .withUser("t").password("t").roles("ADMIN");
+    }
     @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
+    public NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 }

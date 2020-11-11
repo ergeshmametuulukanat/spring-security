@@ -22,6 +22,9 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private RoleDao roleDao;
 
@@ -39,7 +42,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void add(User user) {
-        user.setRoles(new HashSet<>(Collections.singletonList(getRole())));
+        System.out.println("check");
+//        user.setRoles(new HashSet<>(Collections.singletonList(getRole())));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
@@ -52,7 +57,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void update(User user) {
-        user.setRoles(new HashSet<>(Collections.singletonList(getRole())));
         entityManager.merge(user);
     }
 
@@ -68,7 +72,7 @@ public class UserDaoImpl implements UserDao {
         return users.stream().filter(x -> x.getName().equals(username)).findAny().orElse(null);
     }
 
-    private Role getRole() {
-        return roleDao.getAllRoles().stream().filter(x -> x.getRole().equals("ROLE_USER")).findAny().orElse(null);
-    }
+//    private Role getRole() {
+//        return roleDao.getAllRoles().stream().filter(x -> x.getRole().equals("ROLE_USER")).findAny().orElse(null);
+//    }
 }
