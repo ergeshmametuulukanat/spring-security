@@ -17,6 +17,11 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
+    @Override
+    public String toString() {
+        return role;
+    }
+
     public Long getId() {
         return id;
     }

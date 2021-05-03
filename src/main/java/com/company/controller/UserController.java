@@ -7,12 +7,13 @@ import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -54,9 +55,18 @@ public class UserController {
         return "add-user";
     }
 
-    @PostMapping("/adduser")
-    public String addUser(User user, Model model) {
-        System.out.println(user.getRoles());
+    @PostMapping(value = "/adduser")
+    public String addUser(@ModelAttribute("user") User user,
+                          @RequestParam Map<String, String> form,
+                          Model model) {
+        List<String> roles = roleDao.getRoleNamesToList();
+        Set<String> set = new HashSet<>(roles);
+        user.getRoles().clear();
+        for (String key : form.keySet()) {
+            if (set.contains(key)) {
+                user.getRoles().add(roleDao.getRoleByName(key));
+            }
+        }
         userService.add(user);
         model.addAttribute("users", userService.getAllUsers());
         return "index";
@@ -72,7 +82,17 @@ public class UserController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") long id, User user, Model model) {
+    public String editUser(@ModelAttribute("user") User user,
+                           @RequestParam Map<String, String> form,
+                           Model model) {
+        List<String> roles = roleDao.getRoleNamesToList();
+        Set<String> set = new HashSet<>(roles);
+        user.getRoles().clear();
+        for (String key : form.keySet()) {
+            if (set.contains(key)) {
+                user.getRoles().add(roleDao.getRoleByName(key));
+            }
+        }
         userService.update(user);
         model.addAttribute("users", userService.getAllUsers());
         return "index";
